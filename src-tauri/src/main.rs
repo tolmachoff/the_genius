@@ -1,4 +1,5 @@
 use std::fs;
+use std::process;
 
 use serde::Serialize; 
 use serde::Deserialize;
@@ -27,6 +28,11 @@ fn get_commands() -> Vec<CommandGroup> {
 #[tauri::command]
 fn run_command(command: String) {
     println!("Run: {}", command);
+    process::Command::new("sh")
+        .arg("-c")
+        .arg(command)
+        .spawn()
+        .expect("Failed to execute process");
 }
 
 fn main() {
