@@ -1,0 +1,13 @@
+- name: "Default"
+  commands:
+  - name: "scan"
+    action: "shit scan"
+
+  - name: "clean"
+    action: "shit clean"
+
+- name: "Clippy"
+  commands:
+  - name: "run"
+    description: "run router"
+    action: "clippy run router"
