@@ -9,22 +9,19 @@ window.addEventListener("DOMContentLoaded", () => {
       header.innerHTML = group.name;
       container.appendChild(header);
 
-      group.commands.forEach(command => {
-        const p = document.createElement("p");
-        container.appendChild(p);
+      const p = document.createElement("p");
+      container.appendChild(p);
 
+      group.commands.forEach(command => {
         const button = document.createElement("button");
         button.innerHTML = command.name;
         button.addEventListener("click", () => {
           invoke("run_command", { command: command.action });
         });
-        p.appendChild(button);
-        
         if (command.description) {
-          const label = document.createElement("label");
-          label.innerHTML = " - " + command.description;
-          p.appendChild(label);
+          button.title = command.description;
         }
+        p.appendChild(button);        
       });
     });
   });
