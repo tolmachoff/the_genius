@@ -1,4 +1,9 @@
-- name: "Common"
+- name: Common
   commands:
-  - name: "pwd"
-    action: "pwd"
+  - name: one line
+    action: pwd
+  
+  - name: multi line
+    action: |
+      pwd
+      ls -al
