@@ -27,10 +27,14 @@ fn get_commands() -> Vec<CommandGroup> {
 
 #[tauri::command]
 fn run_command(command: String) {
+    let command = command.trim_end().replace("\n", "; ");
     println!("Run: {}", command);
-    process::Command::new("sh")
+    process::Command::new("gnome-terminal")
+        .arg("--tab")
+        .arg("--")
+        .arg("bash")
         .arg("-c")
-        .arg(command)
+        .arg(format!("{}; exec bash", command))
         .spawn()
         .expect("Failed to execute process");
 }
