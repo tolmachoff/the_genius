@@ -1,12 +1,7 @@
-use std::fs;
-use std::process;
-
-use serde::Serialize; 
-use serde::Deserialize;
-
+use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
-struct Command {
+struct Cmd {
     name: String,
     #[serde(default)]
     description: String,
@@ -14,27 +9,29 @@ struct Command {
 }
 
 #[derive(Serialize, Deserialize)]
-struct CommandGroup {
+struct CmdGroup {
     name: String,
-    commands: Vec<Command>,
+    commands: Vec<Cmd>,
 }
 
 #[tauri::command]
-fn get_commands() -> Vec<CommandGroup> {
-    let commands_text = fs::read_to_string("commands.yaml").unwrap();
-    serde_yaml::from_str(&commands_text).unwrap()
+fn get_commands() -> Vec<CmdGroup> {
+    let file = std::fs::File::open("commands.yaml").unwrap();
+    let reader = std::io::BufReader::new(file);
+    serde_yaml::from_reader(reader).unwrap()
 }
 
 #[tauri::command]
 fn run_command(command: String) {
-    let command = command.trim_end().replace("\n", "; ");
     println!("Run: {}", command);
-    process::Command::new("gnome-terminal")
-        .arg("--tab")
-        .arg("--")
-        .arg("bash")
-        .arg("-c")
-        .arg(format!("{}; exec bash", command))
+    std::process::Command::new("gnome-terminal")
+        .args(&[
+            "--tab",
+            "--",
+            "bash",
+            "-c",
+            &format!("{}; exec bash", command.trim_end().replace("\n", "; ")),
+        ])
         .spawn()
         .expect("Failed to execute process");
 }
@@ -43,5 +40,5 @@ fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![get_commands, run_command])
         .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+        .expect("Error while running tauri application");
 }
