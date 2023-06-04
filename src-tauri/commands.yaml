@@ -1,9 +1,56 @@
 - name: Common
   commands:
-  - name: one line
-    action: pwd
+  - name: hello
+    description: Say hello to world that hates you
+    action: echo hello
   
-  - name: multi line
-    action: |
-      pwd
-      ls -al
+  - name: bye
+    action: echo bye
+
+
+- name: KISG
+  commands:
+  - name: destroy
+    action: echo destroy
+  
+  - name: create
+    action: echo hello
+  
+  - name: list
+    action: echo hello
+  
+  - name: show
+    action: echo hello
+
+  - name: update
+    action: echo hello
+
+- name: Network
+  commands:
+  - name: create
+    action: echo hello
+  
+  - name: list
+    action: echo hello
+
+- name: Storage
+  commands:
+  - name: create
+    action: echo hello
+  
+  - name: list
+    action: echo hello
+
+- name: Gachi
+  commands:
+  - name: create
+    action: echo hello
+  
+  - name: list
+    action: echo hello
+  
+  - name: call Billy
+    action: echo hello
+  
+  - name: call Van
+    action: echo hello
